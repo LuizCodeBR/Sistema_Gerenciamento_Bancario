@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/banco?useSSL=false&serverTimezone=UTC
+    username: ${DB_USER:root}
+    password: ${DB_PASS:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update   # em desenvolvimento; em produção use none + migrations
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  # JWT secret
+app:
+  jwt-secret: ${JWT_SECRET:supersecretkeychangeme}
+  jwt-expiration-ms: 3600000   # 1 hora
