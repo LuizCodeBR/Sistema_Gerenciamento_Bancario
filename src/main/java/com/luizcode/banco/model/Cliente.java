@@ -1,13 +1,14 @@
 package com.luizcode.banco.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -39,6 +40,8 @@ public class Cliente {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore
+    @ToString.Exclude
     private String senhaHash;
 
     @CreationTimestamp

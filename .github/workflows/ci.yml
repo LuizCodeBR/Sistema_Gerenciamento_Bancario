@@ -1,0 +1,54 @@
+name: Verificar projeto
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: ['17', '21']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: maven
+      - run: bash mvnw -B -ntp verify
+  mysql:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: banco_portfolio_it
+          MYSQL_USER: banco_test
+          MYSQL_PASSWORD: ci-test-local
+          MYSQL_ROOT_PASSWORD: ci-root-local
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -pci-root-local"
+          --health-interval=5s --health-timeout=5s --health-retries=30
+    env:
+      MYSQL_TEST_USER: banco_test
+      MYSQL_TEST_PASS: ci-test-local
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: bash mvnw -B -ntp -Pmysql-it verify
+  demonstracao-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker compose up --build -d
+      - shell: pwsh
+        run: ./scripts/demo.ps1
+      - if: always()
+        run: docker compose logs
+      - if: always()
+        run: docker compose down

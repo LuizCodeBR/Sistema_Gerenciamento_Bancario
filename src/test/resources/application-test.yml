@@ -1,0 +1,7 @@
+# Chave pública de fixture, exclusiva dos testes. Não é configuração da aplicação.
+app:
+  jwt:
+    secret: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+    expiration-ms: 3600000
+    issuer: banco-portfolio
+    audience: banco-api

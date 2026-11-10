@@ -1,0 +1,8 @@
+services:
+  app:
+    build: .
+    environment:
+      SPRING_PROFILES_ACTIVE: demo
+      SERVER_ADDRESS: 0.0.0.0
+    ports:
+      - "127.0.0.1:8080:8080"

@@ -1,0 +1,16 @@
+# Demonstração local descartável; a aplicação padrão continua usando MySQL.
+server:
+  address: 127.0.0.1
+spring:
+  datasource:
+    url: jdbc:h2:mem:banco-demo;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=10000
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+  h2:
+    console:
+      enabled: false
